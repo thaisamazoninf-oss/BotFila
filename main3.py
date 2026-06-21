@@ -1,6 +1,9 @@
 import time
-import re
+from selectors import Selectors
 from playwright.sync_api import sync_playwright, TimeoutError
+
+usuario = "atendente02@amazoninf.com.br"
+senha = "Amazon@2025"
 
 with sync_playwright() as p:
     browser = p.chromium.launch(
@@ -8,38 +11,59 @@ with sync_playwright() as p:
     )
     page = browser.new_page()
     
-    page.goto("https://chat.sonax.net.br/app/omnichannel/chat")
+    #Acessar o site
+    page.goto(Selectors.Login.SITE)
     
-    page.wait_for_selector("body > app-root > app-login > div > div.left-side > div > div:nth-child(2) > input")
+    #Aguardar aparecer o campo usuario
+    page.wait_for_selector(Selectors.Login.AGUARDAR_USUARIO)
     
-    #usuário
-    page.fill("body > app-root > app-login > div > div.left-side > div > div:nth-child(2) > input", "atendente02@amazoninf.com.br")
-    #senha
-    page.fill("div.left-side-form-input:nth-child(3) > input:nth-child(2)", "Amazon@2025")
+    #Adiciona o usuário
+    page.fill(Selectors.Login.USUARIO,usuario)
+    
+    #Adiciona a senha
+    page.fill(Selectors.Login.SENHA, senha)
+    
     #Clique botão entrar
-    page.click("button.roboto")
+    page.click(Selectors.Login.ENTRAR)
     time.sleep(2)
+    
+    #Clique no botão Fechar (caso exista)
     #page.click("#botao-fechar")
     
-    #Aguardar aparece a aba Conversando
-    page.wait_for_selector("body > app-root > app-layout-omnichannel > div > div > div > div > div > div > div > app-chat-home > div > div.sidebar-body.chat-main-sidebar > div.chats-nav > div.chat_item_header.types-bot > span:nth-child(2)")
+    #Aguardar aparece a BOT/Fila/Conversando
+    page.wait_for_selector(Selectors.Fila.ABA_FILA)
     
     #Selecionar aba de atendimento: BOT/Fila/Conversando
-    page.locator('body > app-root > app-layout-omnichannel > div > div > div > div > div > div > div > app-chat-home > div > div.sidebar-body.chat-main-sidebar > div.chats-nav > div.chat_item_header.types-bot > span:nth-child(2)').click()
-    print("clique aba de atendimento")
+    page.locator(Selectors.Fila.ABA_FILA).click()
+    print("clique aba desejada")
+    
+    #page.locator(Selectors.Card.CARD).click()
+    #print ("Clique no card")
+    
+    #perfil = page.locator(Selectors.Card.CARD_PERFIL).text.content()
+    #print("Perfil do usuário:", perfil)
     
     atendimento_em_andamento = False
     ultimo_total = None
+    ultimo_total2 = None
     
     while True:
         try:
-            #contator de números de atendimento na fila
+            #contador de números de atendimento na fila
             total = int(
-                page.locator('xpath=/html/body/app-root/app-layout-omnichannel/div/div/div/div/div/div/div/app-chat-home/div/div[1]/div[2]/div[1]/span[2]/div/span')
+                page.locator(Selectors.Fila.CONTADOR_FILA)
                 .text_content()
                 .strip()
             )
             
+            #contador de números de atendimento do bot
+            total2 = int(
+                page.locator(Selectors.Fila.CONTADOR_BOT)
+                .text_content()
+                .strip()
+            )
+            
+                
             if total != ultimo_total:
                 if total == 0:
                     print("Nenhum atendimento na fila")
@@ -49,20 +73,16 @@ with sync_playwright() as p:
                     print(f"Há {total} atendimento na fila")
                 
                 ultimo_total = total
-            
-            #Iniciar atendimento
-            #if total > 0 and not atendimento_em_andamento:
-            #    atendimento_em_andamento = True
                 
-            #    print ("Abrindo atendimento")
+            if total2 != ultimo_total2:
+                if total2 == 0:
+                    print("Nenhum atendimento no bot")
+                elif total2 == 1:
+                    print("Há 1 atendimento no bot")
+                else:
+                    print(f"Há {total2} atendimento no bot")
                 
-            #    page.locator(
-            #        ""
-            #    ).first.click()
-                
-            #    print("Atendimento iniciado")
-                
-            #    atendimento_em_andamento = False
+                ultimo_total2 = total2
         
         except Exception as e:
             print(f"Erro ao monitorar fila:{e}")
