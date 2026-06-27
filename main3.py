@@ -34,55 +34,80 @@ with sync_playwright() as p:
     page.wait_for_selector(Selectors.Fila.ABA_FILA)
     
     #Selecionar aba de atendimento: BOT/Fila/Conversando
-    page.locator(Selectors.Fila.ABA_FILA).click()
+    page.locator(Selectors.Fila.ABA_CONVERSANDO).click()
     print("clique aba desejada")
     
     #page.locator(Selectors.Card.CARD).click()
     #print ("Clique no card")
     
-    #perfil = page.locator(Selectors.Card.CARD_PERFIL).text.content()
+    #Aguardar o card perfil aparecer. 
+    #page.wait_for_selector(Selectors.Card.CARD_TESTE) 
+    
+    #Ler o perfil no CARD.
+    #perfil = page.locator(Selectors.Card.CARD_TESTE).first.inner_text()
     #print("Perfil do usuário:", perfil)
     
     atendimento_em_andamento = False
-    ultimo_total = None
-    ultimo_total2 = None
+    ultimo_totalFila = None
+    ultimo_totalBot = None
+    ultimo_totalConversa = None
     
     while True:
         try:
             #contador de números de atendimento na fila
-            total = int(
+            totalFila = int(
                 page.locator(Selectors.Fila.CONTADOR_FILA)
                 .text_content()
                 .strip()
             )
             
             #contador de números de atendimento do bot
-            total2 = int(
+            totalBot = int(
                 page.locator(Selectors.Fila.CONTADOR_BOT)
                 .text_content()
                 .strip()
             )
             
-                
-            if total != ultimo_total:
-                if total == 0:
-                    print("Nenhum atendimento na fila")
-                elif total == 1:
-                    print("Há 1 atendimento na fila")
-                else:
-                    print(f"Há {total} atendimento na fila")
-                
-                ultimo_total = total
-                
-            if total2 != ultimo_total2:
-                if total2 == 0:
+            #contato conversando
+            totalConversa = int(
+                page.locator(Selectors.Fila.CONTADOR_CONVERSANDO)
+                .text_content()
+                .strip()
+            )
+            
+            # Total de usuarios na aba Bot
+            if totalBot != ultimo_totalBot:
+                if totalBot == 0:
                     print("Nenhum atendimento no bot")
-                elif total2 == 1:
+                elif totalBot == 1:
                     print("Há 1 atendimento no bot")
                 else:
-                    print(f"Há {total2} atendimento no bot")
+                    print(f"Há {totalBot} atendimento no bot")
                 
-                ultimo_total2 = total2
+                ultimo_totalBot = totalBot
+                
+            # Total de usuarios na aba Fila
+            if totalFila != ultimo_totalFila:
+                if totalFila == 0:
+                    print("Nenhum atendimento na fila")
+                elif totalFila == 1:
+                    print("Há 1 atendimento na fila")
+                else:
+                    print(f"Há {totalFila} atendimento na fila")
+                
+                ultimo_totalFila = totalFila
+                
+            # Total de usuarios na aba Conversando
+            if totalConversa != ultimo_totalConversa:
+                if totalConversa == 0:
+                    print("Analista sem atendimento")
+                elif totalConversa == 1:
+                    print("Analista com 1 atendimento")
+                else:
+                    print(f"O analista está com {totalConversa} atendimento")
+                
+                ultimo_totalConversa = totalConversa
+
         
         except Exception as e:
             print(f"Erro ao monitorar fila:{e}")

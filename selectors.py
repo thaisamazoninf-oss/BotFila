@@ -28,8 +28,14 @@ class Selectors:
         CONTADOR_BOT = "xpath=/html/body/app-root/app-layout-omnichannel/div/div/div/div/div/div/div/app-chat-home/div/div[1]/div[2]/div[1]/span[1]/div/span"
         
         ABA_CONVERSANDO = "xpath=/html/body/app-root/app-layout-omnichannel/div/div/div/div/div/div/div/app-chat-home/div/div[1]/div[2]/div[1]/span[3]"
+        
+        CONTADOR_CONVERSANDO = "xpath=/html/body/app-root/app-layout-omnichannel/div/div/div/div/div/div/div/app-chat-home/div/div[1]/div[2]/div[1]/span[3]/div/span"
+        
+        
     
     class Card:
         CARD = "xpath=/html/body/app-root/app-layout-omnichannel/div/div/div/div/div/div/div/app-chat-home/div/div[1]/div[2]/app-protocol-list/div/app-protocol-item/div"
         
-        CARD_PERFIL = "xpath=/html/body/app-root/app-layout-omnichannel/div/div/div/div/div/div/div/app-chat-home/div/div[3]/div/app-protocol-view/div/app-protocol-view-messages/div[2]/div[1]/div/div/div[9]/div/div/div[1]/span/markdown/p"
+        CARD_PERFIL = "xpath=/html/body/app-root/app-layout-omnichannel/div/div/div/div/div/div/div/app-chat-home/div/div[3]/div/app-protocol-view/div/app-protocol-view-messages/div[2]/div[1]/div/div/div[22]/div/div/div[1]/span/markdown/p"
+        
+        CARD_TESTE = "xpath=//html/body/app-root/app-layout-omnichannel/div/div/div/div/div/div/div/app-chat-home/div/div[1]/div[2]/div[1]/span[3]/span"
