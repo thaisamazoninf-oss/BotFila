@@ -1,9 +1,12 @@
 import time
+import pyttsx3
 from selectors import Selectors
 from playwright.sync_api import sync_playwright, TimeoutError
 
 usuario = "atendente02@amazoninf.com.br"
 senha = "Amazon@2025"
+
+engine = pyttsx3.init()
 
 def iniciar_automacao():
 
@@ -81,6 +84,9 @@ def iniciar_automacao():
                 if totalBot != ultimo_totalBot:
                     if totalBot == 0:
                         print("Nenhum atendimento no bot")
+                        engine.say("Nenhum atendimento no  bot")
+                        engine.runAndWait()
+                        
                     elif totalBot == 1:
                         print("Há 1 atendimento no bot")
                     else:

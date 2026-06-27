@@ -19,7 +19,7 @@ class Console:
 janela = tk.Tk()
 janela.title("Automação")
 
-logs = ScrolledText(janela, width=100, height=30)
+logs = ScrolledText(janela, width=70, height=30)
 logs.pack()
 
 #Todos os prints aparecem aqui
