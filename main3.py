@@ -41,11 +41,11 @@ with sync_playwright() as p:
     #print ("Clique no card")
     
     #Aguardar o card perfil aparecer. 
-    #page.wait_for_selector(Selectors.Card.CARD_TESTE) 
+    page.wait_for_selector(Selectors.Card.CARD_TESTE) 
     
     #Ler o perfil no CARD.
-    #perfil = page.locator(Selectors.Card.CARD_TESTE).first.inner_text()
-    #print("Perfil do usuário:", perfil)
+    perfil = page.locator(Selectors.Card.CARD_TESTE).first.inner_text()
+    print("Perfil do usuário:", perfil)
     
     atendimento_em_andamento = False
     ultimo_totalFila = None
@@ -100,7 +100,7 @@ with sync_playwright() as p:
             # Total de usuarios na aba Conversando
             if totalConversa != ultimo_totalConversa:
                 if totalConversa == 0:
-                    print("Analista sem atendimento")
+                    print("No momento, analista sem atendimento")
                 elif totalConversa == 1:
                     print("Analista com 1 atendimento")
                 else:

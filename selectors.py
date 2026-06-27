@@ -38,4 +38,4 @@ class Selectors:
         
         CARD_PERFIL = "xpath=/html/body/app-root/app-layout-omnichannel/div/div/div/div/div/div/div/app-chat-home/div/div[3]/div/app-protocol-view/div/app-protocol-view-messages/div[2]/div[1]/div/div/div[22]/div/div/div[1]/span/markdown/p"
         
-        CARD_TESTE = "xpath=//html/body/app-root/app-layout-omnichannel/div/div/div/div/div/div/div/app-chat-home/div/div[1]/div[2]/div[1]/span[3]/span"
+        CARD_TESTE = "xpath=/html/body/app-root/app-layout-omnichannel/div/div/div/div/div/div/div/app-chat-home/div/div[1]/div[2]/div[1]/span[2]/span[1]"
